@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!-- 要循环谁就在谁身上增加v-for属性 -->
+		<ul>
+			<li v-for='(fruit,index) in fruits'>{{fruit.name}}{{index+1}}</li>
+		</ul>
+
+		<ul>
+			<li v-for = '(fruit,index1) in fruits'>{{index1+1}}. {{fruit.name}}
+				<ul>
+					<!-- <li v-for = '(fruit,index2) in fruits'>{{index1+1}}.{{index2+1}} {{fruit.color[index2]}}</li> -->
+
+					<li v-for = '(color,index2) in fruit.color'>{{index1+1}}.{{index2+1}} {{color}}</li>
+				</ul>
+			</li>
+		</ul>
+
+		<div v-for='c in "aaaa"'>{{c}}</div>
+
+		<div v-for='c in 5 '>{{c}}</div>
+
+		<div v-for='(value,key,index) in obj'>{{index}}  {{key}}:{{value}}</div>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*
+	  1. 以前的做法：拼字符串innerHTML
+	  2. v-for   //一个指令，解决循环问题 更高效会复用原有的解构
+	  3. 要循坏谁就在谁的身上增加 v-for
+	  4. 默认是 value of 数组（value，index） of 数组
+	  5. 循环字符串  把单个字符串打印
+	  6. 循环数字，
+	  7. 循环对象
+    */
+	 let vm = new Vue({
+	 	el:'#app',
+	 	data:{
+	 		obj:{
+	 			name:'dqz',
+	 			age:18,
+	 			sex:"女"
+	 		},
+	 		fruits:[{name:'苹果',color:['red','green']},
+	 				{name:'香蕉',color:['green','yellow']},
+	 				{name:'菠萝',color:['yellow']}]
+	 	}
+	 });
+2
+</script>

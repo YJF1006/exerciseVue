@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model='val' @keyup.enter='add'>   <!-- 按下回车才触发 键盘修饰符 -->
+		<ul>
+			<li v-for='(a,index) in arr'>
+				{{a}}
+				<button @click='remove(index)'>删除</button>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*vue 中的键盘修饰符   modifiers   看下面的例子
+		1. @keyup.ctrl.enter    //按下ctrl+enter  才触发
+		2. @keyup.13    //按下键值为13(回车)的才触发
+		3. @keyup.a     //按下a才触发   不分大小写 shift+a 也可以触发，只要按下a那个键就触发
+	
+	 */
+	let vm = new Vue({
+		el:'#app',
+		methods:{
+			add:function(){
+					this.arr.unshift(this.val);   //往上添加
+					this.val='';  //添加完了之后清空输入框
+			},
+			remove:function(i){
+				this.arr = this.arr.filter((item,index)=>index!= i)
+			}
+		
+		},
+						
+		data:{
+			val:'',
+			arr:[]
+		}
+
+	});
+
+</script>

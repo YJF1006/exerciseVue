@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="text" id= 'input'>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+
+	let input = document.querySelector("#input");
+	
+	let obj = {};
+	let temp = {};
+	Object.defineProperty(obj,'name',{
+		get(){  //取值触发
+			return temp['name']
+		},
+		set(val){  //设置值触发
+			temp['name'] = val; //改变temp的值
+			input.name = val;  //将值赋予输入框
+		}
+	});
+	
+//页面加载时
+	input.value = obj.name;  //页面一加载就会触发  得到是undefined
+//添加监听oninput    当input里面的value一发生变化就触发
+	input.addEventListener('input', function(){
+		obj.name = this.value;
+	})
+
+
+/*调试可在控制台完成
+ */
+
+
+</script>

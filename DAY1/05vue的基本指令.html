@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		
+		<!-- 表单元素  input checkbox textarea radio select -->
+		<!-- vue 的“指令” directive 是dom上的行间属性，vue给这类属性赋予一定的意义来实现特殊的功能  
+			所有指令都已 v-开头   value属性默认情况下会被vue忽略   selected checked 都没有意义了-->
+
+		{{msg}}
+		<input type="text" v-model ="msg">  <!--  Object.defineProperty()   ES5 -->
+
+		<div v-text='msg'></div>
+
+		<div v-once> 我是不会变的 {{msg}} </div>
+
+		<div v-html='p'></div>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/**vue 的基本指令
+	 * 1. v-model   //在表单控件或者组件上创建双向绑定  Object.defineProperty()   ES5
+	 * 
+	 * 2. v-text   //等价于  {{}}  ,因为{{}}会闪现  
+	 * 
+	 * 3. v-once   // 只绑定一次，当数据再次发生变化也不会导致页面刷新
+	 * 			用法:直接加所在标签加v-once  ，其余都是以键值存在（测试直接改变输入框内容）
+	 * 			
+	 * 4. v-html   // 把html字符串当做html渲染,一定是可信任的
+	 */
+		let vm = new Vue({   
+		el:'#app',   
+		data:{  
+			msg:'Hello:dqz',
+			p:'<h1>hello 我是v-html的效果</h1>'
+		}		
+	});  
+</script>

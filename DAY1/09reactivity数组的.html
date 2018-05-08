@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		{{arr}}
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/**
+		1. 去改变数组中的某一项是监控不到的
+		2. 也不能使用改变数组长度的方法
+		3. 数组的变异方法： pop push shift unshift sort reserve splice   (这些方法可以 )
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			arr:[1,2,3,4]
+		}
+	});
+
+	//vm.arr[0] = 100;    //错误代码
+	//vm.arr.length = 2;     //不支持  
+	
+	// vm.arr.reverse();  //[4,3,2,1]
+	vm.arr = vm.arr.map(item=>item*3);   //filter  map
+</script>

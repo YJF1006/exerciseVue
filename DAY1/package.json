@@ -1,0 +1,14 @@
+{
+  "name": "20180506",
+  "version": "1.0.0",
+  "description": "-操作dom",
+  "main": "01操作数组的方法.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.5.16"
+  }
+}

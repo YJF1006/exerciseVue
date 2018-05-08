@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!-- {{}}  moustache 小胡子语法 里面可以放 赋值 取值 三元 -->
+	<div id="app">{{msg}}</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	//引入vue后会给你一个Vue构造函数
+	
+	let vm = new Vue({   //vm = viewModel
+
+		el:'#app',   //告诉vue能管理那个部分,querySelector
+
+		data:{  //data中的数据会被vm所代理
+			msg:'Hello:dqz'  //可以通过vm.msg取到对应的内容
+		}	
+		
+	});  //Objet.defineProperty
+</script>

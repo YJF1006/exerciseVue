@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!-- v-on===@ -->
+		<div v-on:mousedown="fn($event,1)">点我啊</div>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/**监听事件  v-on===@ 
+	1. 写法 v-on:事件名 
+			@事件名           
+	2. methods 和data 中的数据会全部放到vm上，而且名字不能冲突，冲突会报错，methods中的this指向都是实例vm
+	3. methods 里面执行函数最好不要用箭头函数   因为this会指向window
+				 (但执行函数里面的函数可以使用箭头函数）
+	4. 原生的事件写在行内的时候必须加()  因为外面报的事件名函数，里面才是执行函数
+	5. vue 里面的事件监听
+		5.1 不传参的时候就不要加()  会自动默认传过去事件源(event)了
+		5.1 要是传参的话手动添加$event属性   实参第一个是$event，接下来是要传的参数
+						                     形参第一个是event ,接下来是要接受的形参
+			一般要用到event的时候刚好也要传参的时候要这样写，其他不用事件源的时候 可以直接传参数
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{  //里面放的多是数据
+			a:1
+		},
+		methods:{ 
+			//fn(){alert(this)}   //[object object]   ,此处要是用了箭头函数 就是[object window]
+			// fn(){alert(this.a)};
+			fn(event,a){console.log(event)}
+		}
+	});
+</script>
