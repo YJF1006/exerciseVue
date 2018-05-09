@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>YJF1006</title>
+	<link rel="stylesheet" href="./node_modules/animate.css/animate.css">
+	<style>
+		div>div{
+			width: 200px;
+			height: 200px;
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button @click='flag=!flag'>切换</button>
+		<input type="text" v-model='query'>
+		<!-- vue 自定义的标签（组件） 样式可以去git上面有文档找 -->
+		<transition-group enter-active-class='animated bounceInUp' leave-active-class='animated bounceOutDown'>
+			<!-- v-for   会默认原有的dom元素，如果加了key不同，他就认为是两个人了 -->
+			<div v-for='(a,index) in newArr' :key="Math.random()">{{a}}</div>
+		</transition-group>		
+
+	</div>	
+</body>
+</html>
+<script src= "./node_modules/vue/dist/vue.js"></script>
+<script>
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			query:'',
+			flag:true,
+			arr:[1,2,3,4,5]
+		},
+		computed:{
+			//newArr 只需要获取值，所以可以写成函数
+			newArr(){
+				return this.arr.filter(item=>item==this.query);   //等于输入框里面输入的值就留下
+			}
+		}
+
+	});
+</script>

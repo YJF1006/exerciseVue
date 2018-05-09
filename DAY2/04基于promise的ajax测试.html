@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app"></div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src= "./04promise-ajax.js"></script>
+<script>
+	let vm = new Vue({
+		created(){
+			//测试自己封装的基于promise的
+			ajax({url:"./carts.json"}).then((res)=>{
+				this.products = res;
+			},(e)=>{
+				console.log(e);
+			});
+		},
+		el:'#app',
+		data:{
+			products:[]
+		}
+	});
+
+</script>

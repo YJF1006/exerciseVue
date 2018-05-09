@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+	<!-- 	如果是复选框，只有一个复选的时候，会把此值转换成布尔类型，如果true则选中 -->
+	<!--如果是多个checkbox ,要增加value属性，并且数据类型为数组 那么当点击的时候会自动将对应的value值在数组增添或者删除 -->
+		<input type="checkbox" v-model='a'>{{a}}
+		爱好:   <input type="checkbox" v-model="b" value="游泳">游泳
+				<input type="checkbox" v-model="b" value="爬山">爬山
+				<input type="checkbox" v-model="b" value="睡觉">睡觉
+		{{b}}
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			a:true,
+			b:[]
+		}
+	});
+
+</script>

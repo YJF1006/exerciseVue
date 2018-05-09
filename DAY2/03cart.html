@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+	<style>
+	</style>
+</head>
+<body>
+	<!-- 常见的样式  基本样式 + 增强样式 -->
+	<!-- default  灰色   success 绿色  danger 红色  warning 警告色 info 浅蓝色  primary 蓝色-->
+	<!-- vue的ui框架  iview, mintui(移动端的)  elementui -->
+	<div id="app">
+		 <div class="container">
+			<div class="row">	
+				<h2 class='text-center text-warning'>dqz购物车</h2>
+				<table class='table table-hover table-bordered'>
+					  <!-- <caption class="h2 text-warning text-center">珠峰购物车</caption> -->
+
+					<tr>
+			<!--click点击时 checkbox状态还没有改变，所以拿到的总是相反的  所以用change事件
+				change 可以保证值变化的时候再触发函数-->
+						<th>全选 <input type="checkbox" v-model ='checkAll' @change="change"></th>
+						<td>商品</td>
+						<td>单价</td>
+						<td>数量</td>
+						<td>小计</td>
+						<td>操作</td>
+					</tr>
+
+					<tr v-for = '(product,index) in products'>
+						<td>
+
+							<input type="checkbox" v-model ="product.isSelected"  @change="checkOne">
+						</td>
+						<!-- 要在属性里面写类似于{{}}的     则只需要在属性之前要用:(冒号)，不再给属性值用{{}}-->
+						<!-- 简言之  在外面取用{{}}   在里面取用:(冒号 等价于v-bind 动态绑定指令) 表单的用 v-model -->
+						<td>
+							<img :src="product.productCover" :title="product.productName">
+							{{product.productName}}
+						</td>   
+						<td>{{product.productPrice}}</td>
+						<td>
+							<!-- type=number 是为了保证用户输入的是数字，不允许文本的输入 
+									修饰符
+								.number是让输入框的值变成数字类型
+								.lazy  不是实时更新，当输入框失去焦点的时候更新数据 
+								min="1"  规定最小值  -->
+							<input type="number" v-model.number='product.productCount' min="1">
+						</td>
+						<td>
+							<!-- 过滤器 元数据不变的情况，只是改变显示效果  | 管道符 -->
+							{{product.productPrice*product.productCount | toFixed(2) }}
+						</td>
+						<td>
+							<button class='btn btn-danger' @click="remove(product)" >删除</button>
+						</td>
+					</tr>
+
+					<tr>
+					<!-- {{sum()}} 数据一变化就会重新调用此函数，算出最新的结果 不会缓存上一次的结果 所以性能并不高
+						 computed 可以解决这个问题
+						 -->
+						<td colspan="6">总价格：{{sum() | toFixed(2)}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src='./node_modules/axios/dist/axios.js'></script>  
+<script>
+	/**created  是函数，在数据别初始化后会调用，this指向也是vm实例,钩子函数
+	 * 1.专门用来发送ajax的请求
+	 * 2.created 函数里面的this 是实例
+	 * 3.axios   百度翻译  阿克西奥斯河(读音类似)  没有依赖关系，所以引库的位置可以不定
+	 * 
+	 */
+	/*then 函数里面写箭头函数的原因
+	1.要是写一般回调函数 这个里面的this不是实例了，因为他没在created 函数里面 	而是在回调函数里面的this都是window ，
+	2.所以这里用箭头函数最好，让this找上一级
+	3.then 主要靠一种规范  promise 解决回调问题
+	*/
+
+	let vm = new Vue({
+		el:'#app',
+		
+		created(){ //在数据被初始化后会调用，this指向也是vm实例，钩子函数
+			this.getData();	 //调用ajax的方法			
+		},
+		filters:{
+			//可以有很多的过滤器
+			toFixed(input,param1){  //这里的this指向window
+				//input   管道的输入管道符前民的内容()   param1 代表传递的参数  
+				return input.toFixed(param1);      //toFixed()  取几位小数
+			}
+		},
+		data:{
+			products:[],
+			checkAll:false   //是否全选
+		},
+		methods:{
+			//初始化方法
+			getData(){
+				//专门用来发送ajax的方法  axios
+				//Promise解决回调
+				axios.get('./carts.json').then((res)=>{
+						this.products = res.data;  //获取数据，拿到的需要的是res.data
+						this.checkOne();   //数据获取完成后给checkAll 赋予默认值
+					},(e)=>{
+						console.log(e);
+					})
+			},
+
+			remove(p){
+				//p  当前点击的这一项  过滤删除
+				this.products = this.products.filter(item=>item!==p);
+			},
+
+			change(){
+				//根据当前自己的状态设置 其他人的状态  实现全选和反选
+				//循环改变products里面每一项的isSelected
+				this.products.forEach(item=>item.isSelected = this.checkAll);
+				// alert(this.checkAll);
+			},
+
+			checkOne(){
+				//根据下面点击的结果控制上面全选的结果
+				//只要有一个false ,那么就返回false给checkAll ,这样便可以用every()
+				this.checkAll = this.products.every(item=>item.isSelected);
+				// alert(1);
+			},
+
+			sum(){
+				//求和函数
+				
+				return this.products.reduce((prev,next)=>{
+					if(!next.isSelected){  //如果当前没有被选中，就不加当前这一项，返回的还是上一次继续算
+						return prev;
+					}
+					return prev+next.productPrice*next.productCount
+				},0);
+			}
+		}
+		
+	});
+
+</script>
+

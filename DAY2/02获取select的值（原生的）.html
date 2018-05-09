@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<select  id="select">
+		<option value="1">你好</option>
+		<option value="2">不好</option>
+		<option value="3">我好</option>
+	</select>
+</body>
+</html>
+<script>
+	/*想要获取select值获取的不是option的，而是select标签的
+		1. 给select标签绑定onchange事件，其中value就是获取到的值
+	 */
+	let oSelect = document.getElementById('#select');
+	//1.要给select绑定，不能循环给option绑定onclick事件委托，这样起不到作用
+	//2.给select绑定的是 onchange 事件，只要选的一变就会把所对应的option value值获取到
+	oSelect.onchange = function(){
+		alert(value);
+	};
+</script>

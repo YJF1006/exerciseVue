@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		[v-cloak]:{
+					display: none;
+				  }
+	</style>
+</head>
+<body>
+	<div id="app" v-cloak>
+		<select v-model='a' multiple>
+			<option value="" disabled>请选择</option>  <!-- disabled 不可修改更改选 -->
+			<option value="1">你好</option>
+			<option value="2">不好</option>
+			<option value="3">我好</option>
+		</select>
+	{{a}}
+
+		<input type="radio" v-model='gender' value='男' >男
+		<input type="radio" v-model='gender' value='女'>女
+
+	{{gender}}
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*select的
+	1. 如果value属性不写，默认写的是option中的值，“请选择” 这一项要加disabled
+
+	2.如果是单选，数据类型就写成字符串就行 ''
+
+	3.如果是多选的，数据类型就要是数组
+
+	4.v-model 里面变量的值跟 value里面得值相等就选中了
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			// a:''
+			a:[],
+			gender:'男'
+		}
+	});
+
+</script>
