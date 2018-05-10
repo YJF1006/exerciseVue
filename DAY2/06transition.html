@@ -3,25 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>YJF1006</title>
+	<link rel="stylesheet" href="./node_modules/animate.css/animate.css">
 	<style>
 		div>div{
 			width: 200px;
 			height: 200px;
 			background-color: green;
 		}
-		/* 进入前 */
-		.v-enter{opacity: 0;}
-		/* 进入激活 */
-		.v-enter-active{transition: 1s linear;}
-		/* 离开激活 */
-		.v-leave-active{opacity: 0;transition:  1s linear;}
 	</style>
 </head>
 <body>
 	<div id="app">
 		<button @click='flag=!flag'>切换</button>
-		<!-- vue 自定义的标签（组件） -->
-		<transition>
+		<!-- vue 自定义的标签（组件） 样式可以去git上面有文档找 -->
+		<transition enter-active-class='animated fadeInRight' leave-active-class='animated fadeOutLeftBig'>
 			<div v-show="flag"> v-show是操作样式</div>
 		</transition>		
 
@@ -30,27 +25,6 @@
 </html>
 <script src= "./node_modules/vue/dist/vue.js"></script>
 <script>
-	/*  v-if   v-show 值为true就显示，值为false就隐藏
-	1. v-if="true"   操作的是dom   如果if不通过内部指令就不会执行
-	2. v-show="true"  操作的是样式
-	3.如果频繁的切换dom 使用 v-show(操作样式，这样便可以优化渲染)
-	4.当数据一开始就确定下来使用 v-if
-	5.只有dom从现实到隐藏  或者隐藏到现实  才能使用vue动画
-	 */
-	
-	/*
-	动画的使用
-	1.用transition 标签把要用动画的部分包裹住
-	2.写出样式（要是有多个transition块的时候，就给transition加上name属性 然后把v换成name的属性值 例如）
-		进入前        v-enter{}
-		进入激活      v-enter-active{}
-		离开前        v-leave{}    
-		离开激活      v-leave-active{}
-		...还有其他的样式
-
-	举例  html : <transition name="dqz"></transition>	
-		  css  ： dqz-enter{}
-	 */
 	let vm = new Vue({
 		el:'#app',
 		data:{
