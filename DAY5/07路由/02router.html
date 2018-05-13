@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.active{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- router-link 里面的to是必传的属性  tag属性是想让这个标签变成什么类型 -->
+		<router-link to='/home' tag='button'>首页</router-link>
+		<router-link to='/list' tag='button'>列表页</router-link>
+		<!-- router-view  是一个全局组件 可以直接使用  是将跳转的组件放在里面  -->
+		<router-view></router-view>	
+	</div>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src='../node_modules/vue-router/dist/vue-router.js'></script>
+<script>
+
+	/*
+		router-link-active
+	 */
+	let home = {template:'<div>首页</div>'};
+	let list = {template:'<div>列表页</div>'};
+
+//路由的映射表
+	let routes = [   //   配置路径和组件的关系
+		{path:'/home',component:home},   //配置的关系就是页面级组件
+		{path:'/list',component:list}
+	];
+//引入vue-router自带VueRouter
+	let router = new VueRouter({  
+		//routes:routes  //长得一样弄一个    router实例自带一个routes
+		//mode:'history',   //h5模式  默认是哈希模式
+		routes,
+		linkActiveClass:'active'    //更改默认样式的类名 （链接激活的样式名。默认是router-link-active）
+	}); 
+
+let vm = new Vue({
+		el:'#app',
+		data:{
+
+		},
+		//router:router
+		router   //把router挂载实例上
+	});
+
+</script>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<router-link to="/article/1/a">商品1</router-link>
+		<router-link to="/article/2/a">商品2</router-link>
+		<router-link to="/article/3/a">商品3</router-link>
+		<router-view></router-view>
+	</div>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src= "../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+
+	let article = {template:'<div>第{{$route.params.c}}篇文章</div>'};
+	// /article/1/a
+	// /article/:c/:a  =>   {c:1,a:'a'} = this.route.params    因为这个是属性，所以会放到route上面
+
+	let routes = [  //路径参数表示值必须要有，但是值是随机的
+		{path:'/article/:c/:a',component:article}
+	];
+	let router = new VueRouter({
+		routes
+	});
+	let vm = new Vue({
+		el:'#app',
+		data:{
+
+		},
+		router
+	});
+
+</script>

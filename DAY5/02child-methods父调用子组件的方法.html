@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<loading ref='load'></loading>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*父组件调用子组件的方法
+		0. 给子组件加上ref属性
+		1. 在vue生命周期李阿敏当dom渲染完了之后（mounted(){}） 
+		2. 通过$refs  (this.$refs.ref属性名)  获取到子组件的实例<因为ref 如果放在组件上 获取的是组件的实例  并不是组件的dom元素>
+		3.获取到子组件的实例之后，便可以调用子组件的方法了
+
+
+		扩展：通过ref获得dom元素   ref放在了组件上取得组件实例  放在dom上取得dom元素
+
+		1.当ref放在组件上的时候，（也可以操作组件和dom元素）	                                             																								举例
+			获取子组件的实例(可以在操作子组件)               this.$refs.ref属性值            this.$refs.load
+			获取子组件的dom元素（可以操作子组件的dom元素）   this.$refs.ref属性值.$el        this.$refs.load.$el
+
+		
+	 */
+	let loading= {
+		data(){
+			return {flag:true,a:1}
+		},
+		template:'<div v-show="flag">加载中。。。。</div>',
+		methods:{
+			hide(){
+				this.flag=false
+			}
+		}
+	};
+	let vm = new Vue({
+		el:'#app',
+		data:{},
+		components:{
+			loading
+		},
+		mounted(){     //vue生命周期   当dom渲染完了之后
+		//ref 如果放在组件上 获取的是组件的实例  并不是组件的dom元素
+			//console.log(this.$refs.load);
+			//this.refs.load.hide(); //当页面加载完消失    //在父级里面调用了子组件的hide() 方法
+			this.$refs.load.$el.style.background = 'red';   //当页面加载完渲染成红色
+		}
+	});
+
+</script>

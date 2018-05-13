@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<div id="app">
+	<panel type="warning" @say-title='parent'>
+		<div slot = 'head'>这是一篇vue的使用</div>
+		<div slot = 'body'>这是内容
+			<p>组件的属性传递</p>
+			<p>slot的用法</p>
+			<p>ref的使用</p>
+			<p>nextTick的用法</p>
+		</div>
+		<div slot = 'footer'>作者：DQZ</div>
+	</panel>
+
+</div>
+<!-- panel组件 -->
+<template id='panel'>	
+	<div class="paner" :class="[color]">
+		<div class="panel-heading " ref='head'>
+			<slot name='head'></slot>
+		</div>
+		<div class="panel-body">
+			<slot name='body'></slot> 
+		</div>
+		<div class="panel-footer">	
+			<slot name='footer'>匿名</slot>
+			<button @click='say'>点我说标题</button>
+		</div>
+	</div>
+</template>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*
+		方法写在哪个组件  就看方法定义在哪个组件，所以say()属于panel组件   parent()属于父组件
+	 */
+	let panel ={
+		template:'#panel',
+		props:{  //接收父级给的属性值
+			type:{   //现在是this.type = 'warning'  ，理想中this.type = 'panel-warning' 
+				type:String,
+				default:'default'   //当不传的时候默认颜色是panel-default
+			}
+		},
+		computed:{
+			color(){
+				return 'panel-'+this.type
+			}
+		},
+		methods:{
+			say(){
+				//通过ref获得dom元素   ref放在了组件上取得组件实例  放在dom上取得dom元素
+				this.$emit('say-title',this.$refs.head.innerText)
+			}
+		}
+	};
+
+
+
+	let vm = new Vue({
+		el:'#app',
+		components:{
+			panel
+		},
+		methods:{
+			parent(tit){
+				alert(tit);
+			}
+		}
+	});
+
+</script>	

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!-- 这里放的内容均属于父级当前模板的 ，只有属性名是属于组件的 -->
+		<modal>
+			<a href="https://github.com/YJF1006">去YJF1006</a>
+			<p slot='content'  @click='fn'>亲确认删除吗？</p>
+			<h1 slot='title'>是否删除？</h1>
+			<a href="https://github.com/YJF1006">去YJF1006</a>
+		</modal>
+		
+	</div>
+<!-- 模板中只能有一个根元素，可以通过元素属性定制模板 -->
+	<template id='modal'>
+		<div>
+			<slot name='title'>默认标题</slot>
+			<slot name='content'>默认内容</slot>
+			<slot name='default'>这是一个默认标题</slot>
+		</div>
+	</template>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*slot 作用  定制模板
+	1. slot 里面可以放置一些默认的内容，如果传递了内容则替换掉
+	2. slot 有name属性的时候 ，可以一个内容插到一个标签里面
+	3. slot="xxx" ,将此内容插到name属性为xxx的slot标签里面
+	3. 没有名字的标签都会默认放置到name=default 里面去
+	 */
+
+	//创建modal组件
+	let modal = {
+		template:'#modal'
+	};
+	let vm = new Vue({
+		el:'#app',
+		data:{
+
+		},
+		//注册
+		components:{
+			modal
+		},
+		methods:{
+			fn(){
+				alert(1);
+			}
+		}
+	});
+
+</script>

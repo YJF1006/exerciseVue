@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<router-link to="/home">首页</router-link>
+		<router-link to="/detail">详情页</router-link>
+		<router-view></router-view>
+	</div>
+
+	<template id="detail">
+		<div>
+			<router-link to="/detail/profile">个人中心</router-link>
+			<router-link to="/detail/about">关于</router-link>
+			<router-view></router-view>
+		</div>
+	</template>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+	/*二级路由的嵌套 
+		1. 子级的路由配置的时候不能有/  （因为/代表的是根路由）
+	 */
+	//主页
+	let home ={template:'<div>home</div>'};
+	//详情
+	let detail={template:'#detail'};
+	//详情下个人
+	let profile ={template:'<div>profile</div>'};
+	//详情下的关于
+	let about ={template:'<div>about</div>'};
+
+	let routes =[
+		{
+			path:'/home',
+			component:home
+		},
+		{
+			path:'/detail',
+			component:detail,
+			children:[   //children中的路径永远不带/  ，/表示根目录， 
+				{path:'profile',component:profile},
+				{path:'about',component:about}
+			]
+		}
+	];
+
+	let router = new VueRouter({
+		routes
+	});
+	let vm = new Vue({
+		el:'#app',
+		data:{
+
+		},
+		router
+	});
+
+</script>

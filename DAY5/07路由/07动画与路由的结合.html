@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../node_modules/animate.css/animate.css">
+	<style>
+		.home{background-color: red;}
+		.list{background-color: green;}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<router-link to="/home">首页</router-link>
+		<router-link to="/list">列表页</router-link>
+		<!--  mode(动画的模式)  默认是并行的  'in-out' => 先进后出    'out-in' => 先出后进-->
+		<transition enter-active-class='animated fadeIn'
+					leave-active-class ='animated fadeOut'
+					mode='out-in'>  
+			<!-- 要缓存谁就把谁包起来即可 -->		
+			<keep-alive>
+				<router-view></router-view>
+			</keep-alive>
+			
+		</transition>
+		
+	</div>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+	let home = {
+		template:'<div class="home">首页</div>'
+	};
+	let list = {
+		template:'<div class="list">列表</div>'
+	};
+	let routes =[
+		{path:'/home',component:home},
+		{path:'/list',component:list}
+	];
+	let router = new VueRouter({
+		routes
+	});
+	let vm = new Vue({
+		el:'#app',
+		router
+	});
+
+</script>

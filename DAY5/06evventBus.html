@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<brother1></brother1>
+		<brother2></brother2>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/* 同级兄弟，或者异级 或者隔级传递数据   
+	1.通过eventBus （eventBus是通过发布订阅实现的,同一个人绑定同一个人触发）
+		这里let EventBus = new Vue;  就是为了提供$on $emit 这个方法 ，因为订阅发布要同一个人绑定与触发
+	2. 后期会被vuex 取代
+	 
+	演示eventBus
+	 */
+	
+	let EventBus = new Vue;   //这里EventBus  就是为了提供$on $emit 这个方法 ，因为订阅发布要同一个人绑定与触发
+
+	 let brother1 = {
+	 	template:'<div>{{color}} <button @click="change">变绿</button></div>',
+	 	data(){
+	 		return {color:'绿色',old:'绿色'}   //old保存原有的值，传的时候传原有的值
+	 	}, 
+	 	created(){  //添加监听事件   页面一加载兄弟1长个耳朵听
+	 		//这里的this是brother1
+	 		EventBus.$on('changeRed',(val)=>{
+	 			this.color=val;
+	 			})
+	 	},
+	 	methods:{
+	 		change(){
+	 			EventBus.$emit('changeGreen',this.old)
+	 		}
+	 	}
+	 };
+	 let brother2 ={
+	 	template:'<div>{{color}} <button @click="change">变红</button></div>',
+	 	data(){
+	 		return {color:'红色',old:'红色'};
+	 	},
+	 	created(){
+	 		EventBus.$on("changeGreen",(val)=>{
+	 			this.color=val;
+	 		})
+	 	},
+	 	methods:{
+	 		change(){
+	 			//这里的this是brother2 ,所以不能用this触发  
+	 			EventBus.$emit('changeRed',this.old);
+	 		}
+	 	}
+	 };
+
+
+
+	let vm = new Vue({
+		el:'#app',
+		components:{
+			brother1,brother2
+		}
+	});
+
+</script>
