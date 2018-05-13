@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		全选<input type="checkbox" v-model='checkAll'><br>
+		<input type="checkbox" v-for="product in products" v-model='product.isSelected'>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	let vm = new Vue({
+		el:'#app',
+		//计算属性
+		computed:{
+			checkAll:{
+				get(){  //页面一刷新，默认v-model会读值触发了get()   返回什么结果就会赋予给checkAll
+					return this.products.every(item=>item.isSelected); 
+					//有一个值false就会返回false  全是true就会返回true  这样checkAll的值就被算出来了
+				},
+				set(val){   //拿自己的值给别人赋值
+					 this.products.forEach(item=>item.isSelected=val);
+					 //val 是给checkAll 赋值的时候传递过来的
+				}
+			}
+		},
+		data:{
+			products:[
+				{isSelected:true},
+				{isSelected:true}
+			]
+		}
+	});
+
+
+/*
+1.原来是给框绑定事件，通过事件来进行全选反选
+2.现在是 根据下面数组每个算出来 然后确定checkAll应该是什么
+		页面一刷新，默认v-model就会读值，这样便是获取值，会触发get()
+ */
+</script>

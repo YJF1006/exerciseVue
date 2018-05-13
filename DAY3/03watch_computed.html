@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model='val'>{{allName}}
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			firstName:'dqz',
+			lastName:'yjf',
+			val:''
+		},
+		computed:{
+			allName(){
+				return this.firstName + this.val + this.lastName;
+			}
+		}
+	});
+
+	// let vm = new Vue({
+	// 	el:'#app',
+	// 	data:{
+	// 		firstName:'dqz',
+	// 		lastName:'yjf',
+	// 		val:'',
+	// 		allName:''
+	// 	},
+	// 	watch:{
+	// 		val(newVal){
+	// 			this.allName = this.firstName + newVal + lastName;
+	// 		},
+	// 		firstName(newfirstName){
+	// 			this.allName = newfirstName + val + lastName;
+	// 		},
+	// 		lastName(newlastName){
+	// 			this.allName = this.firstName + val + newlastName;
+	// 		}
+	// 	}
+	// });
+
+</script>

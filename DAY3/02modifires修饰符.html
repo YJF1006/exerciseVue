@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<div  @click='parent'>parent
+			<div @click.self='child'>child
+				<div @click='grandson'>grandson</div>
+			</div>
+		</div>
+
+		<a href="https://github.com/YJF1006" @click.prevent='parent'> 去我的github，只会alert 不会跳转</a>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	let vm = new Vue({
+		el:'#app',
+		methods:{
+			parent(){alert(parent);},
+			child(){alert(child);},
+			grandson(){alert(grandson)};
+			// grandson(){alert(grandson); e.cancelBubble = true}
+		}
+	});
+
+</script>

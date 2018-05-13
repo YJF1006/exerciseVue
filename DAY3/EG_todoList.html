@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>dqz版的todo</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+	<style>
+		.del{
+			text-decoration: line-through;
+			color: #bbb!important;
+		}
+	</style>
+</head>
+<body>
+<div id="app">
+	<nav class="navbar navbar-inverse">
+	  	<div class="container-fluid">
+	      <div class="navbar-header">
+	        <a class="navbar-brand" href="#">
+	          ToDoList
+	        </a>
+	      </div>
+	    </div>
+	</nav>
+	
+	<div class="container">
+		<div class="row" col-mod-12>
+			<div class="col-lg-12" >
+				<div class="panel panel-success">
+					<!-- 头部 -->
+					<div class="panel-heading">						
+						<h3>您好 您还有{{uncheck}}件事情没有做</h3>
+						<!-- keyDown 的时候后内容没有进入输入框 ，第一次触发的时候输入框是空的
+							keyup跟keydown 差一个单词
+						 -->
+						<input type="text" class="form-control" v-model='val' @keyup.13='add'>			
+					</div>
+					<!-- 列表 -->
+					<div class="panel-body">	
+						<ul class="list-group">
+							<!--循坏过滤后的todos -->
+						    <li class="list-group-item" v-for=' (todo,index) in filterTodos' @dblclick='remember(todo)'>
+						    <!-- span里面的  与下面双击完显示互斥 -->	
+						    	<span :class="{del:todo.isSelected}"  v-show='cur!=todo'>  <!-- 如果isSelected生效，则del样式生效 -->
+						    		<input type="checkbox" v-model='todo.isSelected'>  
+						    		{{todo.title}}
+						    	</span>
+						    <!-- 双击完之后显示这一块 所以采用v-show-->
+						    	<!-- 当点击li的时候 要知道点击的是哪一项 如果点击的todo 和当前循环的某一个相等的时候，应该显示输入框-->
+						    	<input type="text" v-model='todo.title' v-show="cur==todo" @keyup.13='cancel' @blur='cancel' v-focus='cur==todo'>
+						    	<button class="pull-right btn btn-danger btn-xs" @click='remove(todo)'>删除</button>
+						    </li>
+						</ul>
+					</div>
+					<!-- 导航 -->
+					<div class="panel-footer">
+						<ul class="nav nav-pills">
+						<!-- 当hash值变化的时候 变化到对应的值 那么所在的li标签就class=active -->
+						  <li role="presentation" :class="{active:hash==='all'}" ><a href="#/all">全部任务</a></li>
+						  <li role="presentation" :class="{active:hash==='finish'}"><a href="#/finish">已完成</a></li>
+						  <li role="presentation" :class="{active:hash==='unfinish'}"><a href="#/unfinish">未完成</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src='node_modules/axios/dist/axios.js'></script>
+<script src="./EG_todo.js"></script>

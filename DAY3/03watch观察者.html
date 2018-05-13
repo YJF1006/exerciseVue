@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model='a'>{{errmsg}}
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*
+	一般计算用computed，涉及到异步了用watch就可以了
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			a:'',
+			errmsg:'',
+		},
+		watch:{  //watch 的属性名要和观察的人的名字一致  watch 支持异步
+			a(newVal,oldVal){    //监控a的值变化，只有值变化的时候才会触发
+				console.log(newVal,oldVal);
+
+				setTimeout(()=>{
+					if(newVal.length<3){
+						return this.errmsg = "太少了";   //return 是为了防止继续往下走
+					}
+					if(newVal.length>6){
+						return this.errmsg = "太多了";
+					}
+					this.errmsg = '',
+				},2000)
+			}
+		}
+	});
+
+</script>

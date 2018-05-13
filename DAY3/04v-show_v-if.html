@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<template v-if='true'>你很美
+			<div>你很美</div>
+			<div>你很美</div>
+			<div>你很美</div>
+			<div>你很美</div>
+			<div>你很美</div>
+		</template>
+		<div v-else>你非常美</div>
+
+	<button @click='cut=!cut'>切换</button>
+	<!-- 默认情况下在切换dom时相同的结构会被复用，如果不需要复用 需要加key -->
+		<template v-if="cut">
+			<label >注册</label>
+			<input type="text" key="1" >
+		</template>
+
+		<template v-else>
+			<label >登录</label>
+			<input type="text" key="2">
+		</template>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*
+	1.v-if 和 v-else要连着写
+	2.template 标签 是vue提供给我们的  没有任何的 实际意义，用来包裹元素的
+		2.1 当v-if 要用到多个div的时候，这时候用template包裹 ，并把v-if 写在template上面，这样便不会改变原有的dom结构
+		2.2 v-show 不支持template,只有v-if使用
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			cut:'true'
+		}
+	});
+
+</script>

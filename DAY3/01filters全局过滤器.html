@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app1">{{ 'Hello' | my}}</div>
+	<div id="app2">{{ 'Hello' | my}}</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*  Vue.filter(函数名，回调函数)
+
+	1.全局过滤器要放在页面的顶部
+	2.多个Vue实例都要用的时候写在全局过滤器里面（即写在原型里面，实例都可以使用）
+	 */
+
+	Vue.filter('my',data=>{return "dqz"+data;})
+
+
+	new Vue({
+		el:'#app1',
+		filters:{
+			my(data){
+				return "dqz"+data;
+			}
+		}
+	});
+
+	new Vue({
+		el:'#app2',
+		data:{
+
+		}
+	});
+
+
+</script>

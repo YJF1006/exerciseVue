@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.a{
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button v-color='flag'>变色</button>
+		<div v-drag class='a'>拖拽</div>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	let vm = new Vue({
+		directives:{
+			//此时的名字应该是自定义的v- 后面的  ，要是v-aa-dd 这里采用驼峰命名法 aaBb
+			color(el,bindings){ //el指代的是button按钮
+				// console.log(arguments);
+				el.style.background = bindings.value
+			},
+			drag(el){
+				el.onmousedown=function(e){
+					var disx = e.pageX-el.offsetLeft;
+					var disy= e.pageY-el.offsetup;
+					document.onmousemove=function(e){
+						el.style.left = e.pageX-disx+"px";
+						el.style.top = e.pageY-disy+"px";
+					};
+					document.onmouseup=function(){
+						document.onmousemove = document.onmoudeup =null;
+					};
+					e.preventDefault();
+				}
+			}
+		},
+		el:'#app',
+		data:{
+			flag:'red'
+		}
+	});
+
+</script>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<div style="font-size:30px;" :style="{backgroundColor:'red',color:'green'}">style样式绑定之对象绑定：     :style="{backgroundColor:'red'}"   (驼峰命名法)</div>
+
+		<div :style="[sty1,sty2,{fontSize:'30px'}]">:style="[sty1,sty2,{fontSize:'30px'}]" </div>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*class和style的动态样式绑定
+		class='x y z'  style='background:"color"'  
+	1.第一种方式 对象   第二种方式是数组
+	2.class 对象方式{className:isActive}
+		:class="{z:flag}"
+	3.class 数组的方式
+		:class="[class1,{z:false}]
+
+	4.style 对象方式  (驼峰命名法)
+		:style="{backgroundColor:'red'}"
+
+	5.style 数组方法
+		:style="[sty1,sty2,{fontSize:'30px'}]"
+
+	 */
+	
+	let vm = new Vue({
+		el:'#app',
+		data:{
+			class1:'x',
+			class2:'y',
+			flag:true
+		}
+	});
+
+</script>
