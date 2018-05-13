@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<p ref='myp'>{{msg}}</p>
+		<div ref='wrapper'>
+			<div v-for='a in arr' ref='mydiv'>{{a}}</div>
+		</div>
+		
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*
+	1. this.$data      //vm上的数据
+	2. this.$watch     //监控
+	3. this.$el        //当前el元素
+	4. this.$set       //后加的属性实现响应式变化
+	5. this.$options   //vm上的所有属性
+	6. this.$nextTick(()=>{})   //异步方法 等到dom渲染完后获取vm  所有的dom操作 最后放在nextTick()中
+	7. this.$refs      //ref的集合  获取真实的dom
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{msg:'hello',arr=[1,2,3]},
+		mounted(){ 
+			// console.log(document.getElementsByTagName('p')[0].innerHTML);	
+			//console.log(vm)	;   // 报错 vm is not defined	
+			this.$nextTick(()=>{console.log(vm)});   //此时可以拿到  
+			console.log(this.$options);
+
+			//如果dom元素不是通过v-for循坏出来的，只能获取到一个   
+			console.log(this.refs.myp);     //p
+
+
+			// 通过v-for循坏出来的可以获取多个
+			console.log(this.refs.mydiv);   //[div,div,div]
+			this.arr=[1,2,3,4];//dom
+			console.log(this.$refs.wrapper.children); //[div,div,div,div]
+			console.log(this.$refs.wrapper.lenght); //3   
+			//  因为dom的映射，刚刚数据改了，视图刷新需要时间，但是代码又往下走了 ，所以拿到的是上一次的
+			
+			//所有的dom操作 最后放在nextTick()中
+			this.$nextTick(()=>{
+			//想改变数据,想获取真实dom中的内容需要等待页面渲染完毕再去操作
+					console.log(this.$refs.wrapper.lenght); //4  
+			});   
+
+
+
+
+		}
+	});
+	console.log(vm.options);
+
+</script>

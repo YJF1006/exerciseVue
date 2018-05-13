@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app"></div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	let vm = new Vue({   //根实例，初始化时会默认调用很多方法(钩子函数)
+		data:{
+			a:1
+		},
+		beforeCreate(){  //1.此方法一般用不到
+			//debugger;  //在此打断点
+		},
+		created(){  //2.获取ajax
+			//debugger;
+		},
+		template:'<div>{{a}}</div>'  //4.如果有template属性，会用模板替换掉外部的HTMl，只要有此属性app中的内容就没有任何意义了，只能有一个根元素，不能是文本节点
+
+		beforeMount(){   //5.没有什么实际意义
+			alert(a);
+		},
+
+		mouted(){}   //6.真实dom渲染完了，可以操作dom了  
+
+		beforeUpdate(){   //7. 更新之前
+			alert('更新之前');
+		},
+		updated()}{   //8.更新之后    7 8 一般用watch替换 
+			alert('更新之后');
+		},
+		beforeDestroy(){  //可以清除定时器或者清除事件绑定
+			alert('销毁前');
+		},
+		destroyed(){   //没有实际意义
+			alert('销毁后');
+		}
+		
+	});
+	vm.$mount('#app');  //3要有编译的元素，相当于 el:'#app'
+	vm.$destroy();    //被移除，观察者，子组件，时间监听,
+</script>
+
+<!-- 生命周期的总结 
+		1.beforeCreate                页面初始化之前，这个时候还没有数据  一般用不到   
+		2.created                      页面初始化操作 和 发送ajax   
+
+	vm.$mount('#app') 或者 el:'#app'//编译元素  
+		3.template                     模板 替换app 跟el配合(模板只能有一个根元素，不能是文本节点)
+		4.beforeMount                  dom渲染之前   没有什么实际意义   
+		5.mounted                      dom渲染完 可以操作dom了  一般在里面套一个this.$nextTick() 再操作dom
+
+		6.beforeUpdate                 更新之前
+		7.updated                      更新之后    这两个一般用watch来替换
+
+	vm.$destroy   //销毁事件触发
+		8.beforeDestory                销毁之前  可以清除定时器或者清除事件绑定
+		9.destoryed                    销毁之后  没有实际意义
+
+
+-->

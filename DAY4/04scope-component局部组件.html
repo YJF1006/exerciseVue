@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!-- 3.使用组件 -->
+		<component1></component1>
+		<component2></component2>
+
+
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*1.局部组件的三部曲
+		1.1 创建这个组件
+		1.2 注册这个组件
+		1.3 引用这个组件
+	
+	2.局部和全局的区别
+		2.1 一个页面可以有多个实例，全局的话就不用再注册一遍了，但是局部的还是再注册
+		2.2 data 必须是函数类型，返回一个实例作为全局组件数据
+		（因为如果是对象：两个组件同时调用时会产生同时更新，
+		  但是如果是函数：每创建一个函数实例，其地址都不同，所以两个组件不会有关系满足了组件的独立性）
+
+	3.组件是相互独立的，不能跨作用域， vm实例也是组件
+	4.组件中拥有生命周期
+	5.所以子组件不能直接使用父组件的数据(涉及到组件之间的数据交互)   组件理论上可以无限嵌套
+	 */
+
+//1.创建组件	  一个组件就是一个对象
+	let obj={name:'dqz'};  //如果组件公用了数据，会导致同时更新(不符合独立性)
+	//组件一
+	let component1 ={
+		template:'<div @click="fn">组件1{{name}},点我名字，下面也会变</div>',
+		data(){
+			return obj
+		},
+		methods:{
+			fn(){   //这里面的this不再是vm,在哪个组件里面写this,this就是哪一个
+				this.name='YJF'
+			}
+		}
+	};
+	//组件二
+	let component2 ={
+		template:'<div>组件2{{name}}</div>',
+		data(){
+			return obj
+		}
+	};
+/*
+组件一和组件二共用了一个对象，导致同时更新(不符合独立性)，
+所以一般使用函数，这个每创建一个函数的实例其地址都不同其他的，这便满足了组件的独立性
+ */
+
+	let vm = new Vue({
+		el:'#app',
+	//包含所有的组件所有+s
+		components:{
+//2.注册组件
+			component1,
+			component2
+		},
+		data:{
+			a:1
+		}
+	});
+
+</script>

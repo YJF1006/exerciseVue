@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		父亲：{{money}}
+		<!-- child.$on('child-msg',thing) -->
+		<!-- 儿子自定义事件  事件名是儿子的  ，执行的方法的是父亲的
+				这样当儿子触发这个事件的时候，父亲就会执行方法，然后通过单向数据流，父亲儿子的数据都会发生改变 -->
+		<child :m='money' @child-msg='things'></child>
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*
+	1. 父组件使用prop 传递给子组件
+	2. 子组件通过vue的自定义事件系统跟父组件通信
+	 */
+
+
+	/*子传父
+	1. 父亲绑定好一些事件，儿子触发这个事件，将参数传递过去   
+	2. 单向数据流，父亲数据刷新，儿子就刷新（儿子通过触发事件，告诉父亲改，父亲数据更新后儿子数据也更新了）
+	
+	 */
+	let vm = new Vue({
+		el:'#app',
+		data:{money:400},
+		methods:{
+			//父亲的方法
+			things(val){// alert(val);	
+				this.money = val;
+			}
+		},
+		//儿子的组件
+		components:{
+			child:{
+				props:['m'],
+				template:'<div>儿子：{{m}} <button @click="getMoney">多要钱</button></div>',
+				methods:{
+					//儿子的点击事件
+					getMoney(){
+						this.$emit('child-msg',800);   //触发自己的自定义事件，让父亲的方法执行
+					}
+				}
+			}
+		}
+	});
+
+</script>

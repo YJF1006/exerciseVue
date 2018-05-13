@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+<!-- 	想要的结果
+		<div>parent
+			<div>son
+				<div>grandson</div>
+			</div>
+		</div> 
+-->
+
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	
+	/**如果要在一个组件A使用另一个组件B
+	 * 1.先保证使用的这个组件得真实存在（B得先创建了）
+	 * 2.在需要使用这个组件的实例A上通过components 注册组件B
+	 * 3.组件B需要在父级A的模板中通过标签形式引入
+	 */
+
+//举例
+
+	//1.1创建grandson组件
+	let grandson = {
+		template:`<div>grandson</div>`,
+	};
+
+	//2.1创建son组件
+	let son = {
+		//1.3在grandson的父级使用grandson组件
+		template:`<div>son<grandson></grandson></div>`,
+		//1.2在grandson的父级注册grandson组件
+		components:{
+			grandson
+		}
+	};
+	//3.1创建parent组件
+	let parent ={
+		//2.3在son的父级使用son组件
+		template:`<div>parent<son></son></div>`,
+		//2.2在son的父级注册son组件
+		components:{
+			son
+		}
+	};
+
+
+	let vm = new Vue({
+		el:'#app',
+		//3.3在parent父级使用parent组件
+		template:'<parent></parent>',
+		//3.2在parent父级注册parent组件
+		components:{
+			parent
+		}
+		
+	});
+
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<my-handsome></my-handsome>	
+	</div>
+</body>
+</html>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+	/*组件分类
+	1.  页面级组件  a、一个页面就是一个组件
+				    b、将可复用的部分抽离出来 基础组件
+
+	2.组件的用法：  a、全局组件：可以声明在任何地方使用
+		            b、局部组件：必须告诉这个组件属于谁
+		 一般写插件的时候使用全局组件多一些
+
+	3.组件开发华的好处
+		3.1 提高开发效率
+		3.2 方便重复使用
+		3.3 便于协同开发
+		3.4 更容易被管理和维护
+
+	4.vue 中的组件：一个自定义标签 vue可以给这些标签赋予一定的意义
+
+	5.组件名字的问题
+		5.1 标签不支持大写，所以不能用驼峰命名法，多个单词用-(短横线隔开)  
+		5.2 只要组件名和定义名字相同(首字母可以大写)
+		5.3 html采用-(短横线隔开命名法) ，js转驼峰也是可以的
+	 */
+	
+	//全局组件
+	Vue.component("my-handsome",{  //一个对象可以看成组件
+		template:'<div>{{msg}}}</div>',
+		data(){   //组件中的数据必须是函数类型，返回一个实例作为组件的数据
+			return {msg:'你很美'};
+		}   
+	});
+
+
+
+	let vm = new Vue({
+		el:'#app',
+		data:{
+
+		}
+	});
+
+</script>
