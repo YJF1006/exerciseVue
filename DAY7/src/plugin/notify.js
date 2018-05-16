@@ -2,7 +2,7 @@
 * @Author: duqinzhi
 * @Date:   2018-05-15 20:46:33
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-15 22:13:03
+* @Last Modified time: 2018-05-16 11:11:57
 */
 
 //自己写的弹框的插件
@@ -14,6 +14,9 @@ let notify = { //需要在此对象上拥有一个install方法
 //理想中的用法  this.$notify('你好啊',{delay:1000})
 
 notify.install = function(Vue,options={delay:3000}){
+	Vue.say =function(){
+		alert('我是插件上的方法  ');
+	}
 	//options use函数传进来的第二个参数对象
 	Vue.prototype.$notify= function(message,opt={}){  //不传默认是空的
 		if(document.$el){   //如果有notify(即已经点过一次了  就直接返回，防止多次点击)
