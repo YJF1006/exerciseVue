@@ -1,25 +1,27 @@
 <template>
 	<div>
-		<Header :back='true' >列表页</Header>
+		<Header >列表页</Header>
 		<div class="content">	
 				<ul>
-					<li v-for='(book,index) in books' :key='index'>
+					<!-- router-link是个可以跳转组件要加key属性，防止警告   router-link替代的是li  所有tag='li' -->
+					<!-- 给路由起名，去到名字叫detail的路由，携带的参数是book.bookId -->
+					<router-link  v-for='(book,index) in books' :key='index' :to='{name:"detail",params:{did:book.bookId}}'  tag='li'>
 						<img :src="book.bookCover">
 						<div>
 							<h4>书名：{{book.bookName}}</h4>
 							<p>内容：{{book.bookInfo}}</p>
 							<b>￥：{{book.bookprice}}</b>
-							<button>删除</button>
-						</div>
-						
-					</li>
+							<button @click.stop=remove(book.bookId)>删除</button>   <!-- .stop是为了防止冒泡 要不点击删除也会进入详情 -->
+						</div>						
+					</router-link>
 				</ul>
 		</div>
 	</div>
 </template>
 <script>
 	import Header from '../base/Header.vue';
-	import {getAllBooks} from '../api/index.js'
+	import {getAllBooks,removeBook} from '../api/index.js';
+
 	export default {
 		created(){
 			//获取所有图书
@@ -34,6 +36,10 @@
 			//获取所有图书
 			async getBooks(){
 				this.books = await getAllBooks();//将执行返回的promise实例
+			},
+			async remove(id){
+				await removeBook(id);  //删除某一项，删除完了后台，也要删除前台数据
+				this.books.filter((item)=>item.bookId!==id);
 			}
 		},
 		components:{

@@ -2,7 +2,7 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 19:45:46
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-17 18:08:20
+* @Last Modified time: 2018-05-17 21:59:31
 */
 let http =require('http');
 let fs = require('fs');
@@ -47,9 +47,15 @@ http.createServer((req,res)=>{
 		let id = parseInt(query.id);  //取出来的字符串转化成数字
 		switch (req.method) {
 			case 'GET':
-				if(id){  //查询一个
-
-
+				if(!isNaN(id)){  //查询一个
+					getBook(function(books){
+						let book = books.find(item=>item.bookId === id);
+						if(!book){  //如果没找到则是undefined返回空对象
+							book ={};
+						}
+						res.setHeader('Content-type','application/json;cahrset=utf-8');
+						res.end(JSON.stringify(book));
+					});
 				}else{ //获取所有的图书
 					getBook(function(books){
 						res.setHeader('Content-type',"application/json;charset=utf-8");
@@ -62,6 +68,13 @@ http.createServer((req,res)=>{
 			case 'PUT':
 				break;
 			case 'DELETE':
+				//通过getBook()获取到所有的书，然后过滤掉相等的id的
+				getBook(function(books){
+					books = books.filter(item=>item.bookId !== id);
+					write(books,function(){
+						res.end(JSON.stringify({}));  //删除返回空对象
+					});
+				});
 				break;
 
 		};
@@ -80,5 +93,10 @@ function getBook(callback){
 		}
 		callback(JSON.parse(result));  //将读出来的内容转化成对象
 	});
+}
+
+//封装一个把修改的数据返回写入book.json(充当数据库)
+function write(data,callback){
+	fs.writeFile('./book.json',JSON.stringify(data),callback);
 }
 

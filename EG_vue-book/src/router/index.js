@@ -15,7 +15,8 @@ export default new Router({
   	{path:'/list',component:List},
   	{path:'/add',component:Add},
   	{path:'/collect',component:Collect},
-  	{path:'/detail',component:Detail},
-  	{path:'*',redirect:"/home"}   //乱输入的时候，重定向到home
+  	//   /detail/1  {Did:1}  路径参数必须有，但是可以随机
+  	{path:'/detail/:did',component:Detail,name:'detail'},
+  	{path:'/',redirect:"/home"}   //乱输入的时候，重定向到home
   ]
 })

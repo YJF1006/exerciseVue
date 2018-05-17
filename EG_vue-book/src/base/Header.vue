@@ -25,7 +25,7 @@
 		position: fixed;
 		top: 0;
 		width: 100%;	
-		background: red;
+		background: yellowgreen;
 		height: 40px;
 		text-align: center;
 		line-height: 40px;

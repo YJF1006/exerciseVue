@@ -2,7 +2,7 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 21:00:15
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-17 18:10:16
+* @Last Modified time: 2018-05-17 22:31:37
 */
 
  //轮播图的接口，用axios发请求给服务器返回来一个Promise实例(可以用then方法)
@@ -33,5 +33,15 @@ export let getAllBooks = ()=>{
 
 //删除某一本图书
 export let removeBook = (id)=>{
-	return axios.delete();
-}
+	return axios.delete(`/book?id=${id}`);  //模板字符串
+};
+
+//获取某一本书
+export let findOne =(id)=>{
+	return axios.get(`/book?id=${id}`);
+};
+
+//修改图书
+export let updateBook = (id,data)=>{
+	return axios.put(`/book?id=${id}`,data);
+};
