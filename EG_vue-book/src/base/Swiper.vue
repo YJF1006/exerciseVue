@@ -13,17 +13,23 @@
     //接收父级传过来的属性（父传子）
     props:['swiperSlides'],
     data() {
-      return {
+     return {
         swiperOption: {
-          pagination: {
-            el: '.swiper-pagination'
-          }
-        }
+          autoplay:true,
+          pagination :{
+            el:'.swiper-pagination',
+            hideOnClick :true,
+            clickable :true,
+          },
+          observeParents:true,
+          setWrapperSize :true,
+        },
       }
     }
   }
 </script>
+
 <style scoped>
-    img{height: 100%;}
+     img{width: 100%;}
 </style>
 

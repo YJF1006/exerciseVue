@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
   	<router-view></router-view>	
 	<Tab></Tab>	
   </div>
@@ -24,10 +23,9 @@
 	input,button{
 		-webkit-appearance: nome;/* 文本框的渲染样式 */
 	}
-	.content{  /* 包裹轮播图的盒子 */
+	.content{  /* 中间的的盒子 */
 		position: fixed;
 		width: 100%;
-		height: 300px;
 		top:40px;
 		bottom: 50px;
 		overflow: auto;  /* 如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。 */

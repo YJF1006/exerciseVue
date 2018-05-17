@@ -15,6 +15,7 @@ export default new Router({
   	{path:'/list',component:List},
   	{path:'/add',component:Add},
   	{path:'/collect',component:Collect},
-  	{path:'/detail',component:Detail}
+  	{path:'/detail',component:Detail},
+  	{path:'*',redirect:"/home"}   //乱输入的时候，重定向到home
   ]
 })
