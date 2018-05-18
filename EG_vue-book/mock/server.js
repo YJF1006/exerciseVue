@@ -2,7 +2,7 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 19:45:46
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-17 21:59:31
+* @Last Modified time: 2018-05-18 20:01:09
 */
 let http =require('http');
 let fs = require('fs');
@@ -24,8 +24,25 @@ http.createServer((req,res)=>{
 	    return res.end(); /*让options请求快速返回*/
 	  }
 
-	let{pathname,query} = url.parse(req.url,true);  //吧把query转化成对象
+	let{pathname,query} = url.parse(req.url,true);  //把query转化成对象
+//懒加载
+	if(pathname ==='/page'){
+		let result,hasMore;
+		getBook(function(books){
+			let pageSize = 5;  //每页的显示个数自定义为5个
+			let offset = parseInt(query.offset) || 0;   //把offset转成数字  拿到当前前端传递的值
+			result = books.reverse().slice(offset,offset+pageSize); 
+			hasMore = true;   //默认有更多 
+			if(books.length<=offset+pageSize){  //已经显示的数目，大于总共的条数
+				hasMore =false;
+			}
+			res.setHeader("Content-Type", "application/json;charset=utf-8");
+			console.log(JSON.stringify({hasMore:hasMore,books:result}));
+		   res.end(JSON.stringify({hasMore:hasMore,books:result}));
 
+		});
+		return
+	}
 
 //轮播图
 	if(pathname === '/sliders'){
@@ -64,8 +81,46 @@ http.createServer((req,res)=>{
 				};
 				break;
 			case 'POST':
+				let str = '';
+				req.on('data',function(chunk){
+					str += chunk;
+				});
+				req.on('end',function(){
+					let book = JSON.parse(str);
+					getBook(function(books){
+						book.bookId = books.length?books.length : 1; //添加id
+						console.log(book);
+						books.push(book);  //将数据放到books中，book在内存中
+						
+						write(books,function(){
+							res.end(JSON.stringify(books));
+						});
+
+					})
+				})
 				break;
 			case 'PUT':
+				if(id){//获取了当前要修改的id
+					let str ='';
+					req.on('data',chunk=>{
+						str += chunk;
+					});
+					req.on('end',()=>{
+						let book = JSON.parse(str);   //book要改成什么样
+						getBook(function(books){
+							book = books.map(item=>{   //迎神
+								if(item.bookId === id){  //找到id相同的哪一本书，用新的代替旧的，其他的不等的就直接原封不动return回去就行
+									return book;
+								}
+								return item
+							});	
+							write(book,function(){  //把新的写入到book.json里面
+								res.end(JSON.stringify(book));
+							})
+
+						});
+					});
+				}
 				break;
 			case 'DELETE':
 				//通过getBook()获取到所有的书，然后过滤掉相等的id的

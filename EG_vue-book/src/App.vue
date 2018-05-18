@@ -1,6 +1,19 @@
 <template>
   <div id="app">
-  	<router-view></router-view>	
+ <!-- 增添动画 -->
+ <transition name='fadeIn'>
+ 	 <!-- 需要缓存的内容  -->
+  	<keep-alive>
+  		<router-view v-if='$route.meta.keepAlive'></router-view>	
+  	</keep-alive>
+ </transition>
+ <transition name='fadeIn'>
+ 	<!-- 正常的访问 不需要缓存的走这 -->
+	<router-view v-if='!$route.meta.keepAlive'></router-view>	
+ </transition>
+
+
+  	
 	<Tab></Tab>	
   </div>
 </template>
@@ -31,4 +44,16 @@
 		overflow: auto;  /* 如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。 */
 	}
 
+	/* 动画的效果 */
+	.fadeIn-enter{  /* 进入之前 */
+		opacity: 0;
+	}
+	.fadeIn-enter-active{
+		transition: all 0.3s linear;
+
+	}
+	.fadeIn-leave-active{
+		transition: all 0.3s linear;
+		opacity: 0;
+	}
 </style>

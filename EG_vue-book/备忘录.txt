@@ -46,3 +46,26 @@
 
 ## list页面级组件
 - 对数的增删改产 采用restful架构风格
+
+## 实现页面缓存(以及动画效果)
+-路由元信息$route.meta.keepAlive
+
+- 在路由上增加 meta:{keepAlive:true}  //说明这个路由的数据需要缓存
+- 到时候调用的时候用 
+```  在App.vue里面
+<!-- 需要缓存的走这  -->
+    <keep-alive>
+        <router-view v-if='$route.meta.keepAlive'></router-view>    
+    </keep-alive>
+<!-- 正常的访问 不需要缓存的走这 -->
+    <router-view v-if='!$route.meta.keepAlive'></router-view>   
+``` 
+
+
+## 下拉加载 /page
+- 默认一次给5条，前端告诉后台现在需要从第几条开始给
+- /page?offset=5
+- 后台还要告诉前端是否有更多的数据   hasMore:false(代表没有数据了)
+
+##  滚动
+ - scrollTop + 元素.clientHeight= 元素.scrollHeight   (卷掉的 + 元素的可视区域 = 元素的内容高度)  一般怕小数影响，会给等式左边多+一个常数

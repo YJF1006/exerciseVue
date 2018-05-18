@@ -2,7 +2,7 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 21:00:15
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-17 22:31:37
+* @Last Modified time: 2018-05-18 20:02:16
 */
 
  //轮播图的接口，用axios发请求给服务器返回来一个Promise实例(可以用then方法)
@@ -44,4 +44,21 @@ export let findOne =(id)=>{
 //修改图书
 export let updateBook = (id,data)=>{
 	return axios.put(`/book?id=${id}`,data);
+};
+
+//添加图书
+export let addBook = (data)=>{
+	return axios.post('/book',data);
+}
+
+//获取全部（将首页的轮播图和热门图书放在一起）
+export let getAll = ()=>{
+	//.all里面的参数是一个数组，数组里面放的是其他的函数返回结果，当这些返回结果都返回了，getAll才会返回
+	return axios.all([getSliders(),getHotBook()]);
+};
+
+//分页(列表页中)  根据偏移量返回对应的数据 
+export let pagination = (offset) =>{
+    return axios.get(`/page?offset=$(offset)`);
+
 };

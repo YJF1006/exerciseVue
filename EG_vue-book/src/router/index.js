@@ -11,7 +11,7 @@ import Detail from '../components/Detail.vue';
 
 export default new Router({
   routes: [
-  	{path:'/home',component:Home},
+  	{path:'/home',component:Home,meta:{keepAlive:true}},
   	{path:'/list',component:List},
   	{path:'/add',component:Add},
   	{path:'/collect',component:Collect},
