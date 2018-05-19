@@ -1,3 +1,4 @@
+#基本已经完成（剩下收藏功能没有实现）
 ## 项目用到less
 ```
     npm install less less-loader axios vuex bootstrap
@@ -69,3 +70,56 @@
 
 ##  滚动
  - scrollTop + 元素.clientHeight= 元素.scrollHeight   (卷掉的 + 元素的可视区域 = 元素的内容高度)  一般怕小数影响，会给等式左边多+一个常数
+
+## 图片懒加载
+- 监听图片的onload事件
+- github上面的插件  vue-lazyload
+- npm 下载插件  import 引入插件(Vue.use())   在需要懒加载的图片上引用  v-lazy (以前是src=  现在是v-lzay)
+
+
+## 用在项目优化  coding split  (代码分割)   
+- 在路由中不需要一次全部引入所有的页面级组件，这样会把所有的打包在一起，一刷新会全部加载出来（要是项目大了，会加载时间过长）
+- 在router index.js里面把每个路径的 component写成函数去动态，调用才会加载执行
+``` 
+  component:()=>import('组件的位置')
+```
+- 这个需要语法是高级语法需要 syntax-dynamic-import 插件，但现在用的脚手架，自带这个插件所以不用担心
+  
+-最后上线的代码跟src无关  只跟最后打包出来的dist有关
+
+#打包之后的工作(开发的时候要跨域，但是上线之后就是同域了)
+## 在服务里面写一个静态的
+
+#打包之前要整理的东西
+
+## 1.删除服务里面的跨域内容，因为现在是同域了
+```   //跨域头
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method == 'OPTIONS') {
+      return res.end(); /*让options请求快速返回*/
+    }
+```
+##2.删除掉 api里面index.js 里面的拦截器
+- axios.defaults.baseURL= 'http://localhost:1006';   //增加默认的请求路径(axios.defaults.baseURL)
+
+## 3.修改router 里面index.js 模式
+```
+    mode:'history',  
+```
+-前后端分离，后端只负责提供接口供前端调用，像跳转都是前端自己处理的
+  1. hash模式 #   开发时使用hash,    不支持seo
+  2. h5的history.pushState  上线的时候用这个(因为hash不会被搜索引擎搜索到的)
+    history.pushState('','','/路径')    页面不会刷新    回车会真实的去访问
+
+#运行（本文件里面的mork是已经打包好了的）
+- 直接node运行mork里面的服务文件，就可以在响应的端口看到项目了
+
+
+#备注
+- npm run dev   是自己测试用的  ，不用在本地生成一个dist文件，
+- npm run buid  是打包用的
+
+-真正的上线
+    把mock文件夹放到自己的服务器(阿里云服务器等等)上就行了  ，就算正式的上线了

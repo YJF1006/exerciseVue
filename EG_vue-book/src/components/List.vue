@@ -7,7 +7,7 @@
 					<!-- router-link是个可以跳转组件要加key属性，防止警告   router-link替代的是li  所有tag='li' -->
 					<!-- 给路由起名，去到名字叫detail的路由，携带的参数是book.bookId -->
 					<router-link  v-for='(book,index) in books' :key='index' :to='{name:"detail",params:{did:book.bookId}}'  tag='li'>
-						<img :src="book.bookCover">
+						<img v-lazy="book.bookCover">
 						<div>
 							<h4>书名：{{book.bookName}}</h4>
 							<p>内容：{{book.bookInfo}}</p>
@@ -75,12 +75,16 @@
 
 			}
 		},
+		// 下来刷新，这是js原生的，vue中也有各种插件，vue-pull-to-refresh (github上可以看)  
 		mounted(){
 			//原生js 
 			let scroll = this.$refs.scroll  //获取到要拖拽的元素
 			let top =scroll.offsetTop;   //拖拽元素距离顶部的偏移量
 			let distance = 0; //默认移动的距离为0
 			scroll.addEventListener('touchstart',(e)=>{
+				if(scroll.scrollTop !=0 || scroll.style.offset != top){ //滚动条在最顶端的时候 或者当前盒子在顶端的时候才继续走，否则就直接return 
+					return
+				}
 				let start = e.touches[0].pageY;     //手指点击的开始
 				let move = (e)=>{
 					let current = e.touches[0].pageY;
@@ -99,17 +103,26 @@
 				};
 				//松手就回去
 				let end = (e)=>{
-					this.timer = setInterval(()=>{   //一共distance
+					clearInterval(this.timer1);   //先清除定时器
+					this.timer1 = setInterval(()=>{   //一共distance
 						if(diatance <=0){
-							clearInterval(this.timer);  //回到原位了就清除定时器
+							clearInterval(this.timer1);  //回到原位了就清除定时器
+							distance = 0;
+							scroll .style.top =top + 'px';  //让盒子也回到顶端
+							scroll.addEventListener('touchmove',move);  //清除定时器
+							scroll.addEventListener('touchend',end);
+							this.offset = 0;
+							this.books = [];  //清空原有的书的数组 (清空数据)  
+							this.getBooks();
+							return;
 						}
 						distance -= 1;
 						scroll.style.top =top + distance + 'px';
 					}); 
 				};
 				scroll.addEventListener('touchmove',move);
-				scroll.addEventListener('touchend',moveend);
-			});
+				scroll.addEventListener('touchend',end);
+			}); 
 		},
 		components:{
 			Header

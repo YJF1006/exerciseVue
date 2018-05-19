@@ -2,11 +2,12 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 19:45:46
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-18 20:01:09
+* @Last Modified time: 2018-05-19 11:16:41
 */
 let http =require('http');
 let fs = require('fs');
 let url = require('url');
+let path = require('path');
 
 
 // 获取轮播图 /sliders
@@ -16,14 +17,6 @@ let sliders = require('./sliders.js')
 
 //搭建服务
 http.createServer((req,res)=>{
-	//跨域头
-	  res.setHeader('Access-Control-Allow-Origin', '*');
-	  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-	  res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-	  if (req.method == 'OPTIONS') {
-	    return res.end(); /*让options请求快速返回*/
-	  }
-
 	let{pathname,query} = url.parse(req.url,true);  //把query转化成对象
 //懒加载
 	if(pathname ==='/page'){
@@ -37,13 +30,11 @@ http.createServer((req,res)=>{
 				hasMore =false;
 			}
 			res.setHeader("Content-Type", "application/json;charset=utf-8");
-			console.log(JSON.stringify({hasMore:hasMore,books:result}));
 		   res.end(JSON.stringify({hasMore:hasMore,books:result}));
 
 		});
 		return
 	}
-
 //轮播图
 	if(pathname === '/sliders'){
 		res.setHeader("Content-Type", "application/json;charset=utf-8");
@@ -137,6 +128,22 @@ http.createServer((req,res)=>{
 	}
 
 
+fs.stat('.'+pathname,function(err,stats){
+	if(err){  //如果错误的话，就返回到首页，到首页了会再次判断
+		fs.createReadStream('index.html').pipe(res);
+	}else{
+		if(stats.isDirectory()){
+			let p = path.join('.'+pathname,'index.html');
+			fs.createReadStream(p).pipe(res);
+		}else{
+			fs.createReadStream('.'+pathname).pipe(res);
+		}
+
+	}
+});
+
+
+
 }).listen(1006)
 
 
@@ -149,7 +156,6 @@ function getBook(callback){
 		callback(JSON.parse(result));  //将读出来的内容转化成对象
 	});
 }
-
 //封装一个把修改的数据返回写入book.json(充当数据库)
 function write(data,callback){
 	fs.writeFile('./book.json',JSON.stringify(data),callback);
