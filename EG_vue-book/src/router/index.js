@@ -11,30 +11,36 @@ Vue.use(Router);
 
 
 export default new Router({  //默认是没有模式的，有模式的是哈希的
-  mode:'history',
+  // mode:'history',
 
   routes: [
   	{
   		path:'/home',
   		component:()=>import('../components/Home.vue'),
-  		meta:{keepAlive:true}},   //缓存
+  		meta:{keepAlive:true,title:'首页'}
+      },   //缓存
+
   	{
   		path:'/list',
   		component:()=>import('../components/List.vue'),
+      meta:{title:'列表'}
   	},
   	{
   		path:'/add',
   		component:()=>import('../components/Add.vue'),
+      meta:{title:'添加'}
   	},
   	{
   		path:'/collect',
   		component:()=>import('../components/Collect.vue'),
+      meta:{title:'收藏'}
   	},
   		//   /detail/1  {Did:1}  路径参数必须有，但是可以随机
   	{
   		path:'/detail/:did',
   		component:()=>import('../components/Detail.vue'),
-  		name:'detail'   //路径参数
+      meta:{title:'详情'},
+  		name:'detail',   //路径参数
   	},
   	{
   		path:'*',

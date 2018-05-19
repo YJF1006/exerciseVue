@@ -2,13 +2,13 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 21:00:15
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-19 10:42:38
+* @Last Modified time: 2018-05-19 18:27:34
 */
 
  //轮播图的接口，用axios发请求给服务器返回来一个Promise实例(可以用then方法)
 
 import axios from 'axios';
-
+axios.defaults.baseURL= 'http://localhost:1006';
 
 //拦截器
 axios.interceptors.response.use((res)=>{//通过响应拦截器统一拦截结果，把结果处理成res.data

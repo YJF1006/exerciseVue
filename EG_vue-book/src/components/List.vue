@@ -12,7 +12,11 @@
 							<h4>书名：{{book.bookName}}</h4>
 							<p>内容：{{book.bookInfo}}</p>
 							<b>￥：{{book.bookprice}}</b>
-							<button @click.stop=remove(book.bookId)>删除</button>   <!-- .stop是为了防止冒泡 要不点击删除也会进入详情 -->
+							<div class='btn-list'>
+								<button @click.stop>加入购物车</button>
+								<button @click.stop=remove(book.bookId)>删除</button>   <!-- .stop是为了防止冒泡 要不点击删除也会进入详情 -->
+							</div>
+							
 						</div>						
 					</router-link>
 				</ul>
@@ -81,12 +85,14 @@
 			let scroll = this.$refs.scroll  //获取到要拖拽的元素
 			let top =scroll.offsetTop;   //拖拽元素距离顶部的偏移量
 			let distance = 0; //默认移动的距离为0
+			let isMove = false;   //没有移动
 			scroll.addEventListener('touchstart',(e)=>{
 				if(scroll.scrollTop !=0 || scroll.style.offset != top){ //滚动条在最顶端的时候 或者当前盒子在顶端的时候才继续走，否则就直接return 
 					return
 				}
 				let start = e.touches[0].pageY;     //手指点击的开始
 				let move = (e)=>{
+					isMove= true;  //代表移动了
 					let current = e.touches[0].pageY;
 					distance = current - start;  //求得拉动的距离，负数就不要了
 					if(distance>0){
@@ -103,6 +109,8 @@
 				};
 				//松手就回去
 				let end = (e)=>{
+					if(!isMove) return   //如果没有移动就不触发end，直接返回return
+					isMove = false;  //抬起的一瞬间move为false，代表不移动了
 					clearInterval(this.timer1);   //先清除定时器
 					this.timer1 = setInterval(()=>{   //一共distance
 						if(diatance <=0){
@@ -172,6 +180,10 @@
 					border: none;
 					border-radius: 15px;
 					outline: none;
+		}
+		.btn-list{
+			display: flex;
+			justify-content: space-around;  /*主轴方向平分*/
 		}
 	}
 	

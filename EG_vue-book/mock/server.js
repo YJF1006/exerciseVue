@@ -2,7 +2,7 @@
 * @Author: duqinzhi
 * @Date:   2018-05-16 19:45:46
 * @Last Modified by:   duqinzhi
-* @Last Modified time: 2018-05-19 11:16:41
+* @Last Modified time: 2018-05-19 18:29:26
 */
 let http =require('http');
 let fs = require('fs');
@@ -13,11 +13,18 @@ let path = require('path');
 // 获取轮播图 /sliders
 let sliders = require('./sliders.js')
 
-
-
 //搭建服务
 http.createServer((req,res)=>{
 	let{pathname,query} = url.parse(req.url,true);  //把query转化成对象
+
+	res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method == 'OPTIONS') {
+      return res.end(); /*让options请求快速返回*/
+ 	}
+
+
 //懒加载
 	if(pathname ==='/page'){
 		let result,hasMore;

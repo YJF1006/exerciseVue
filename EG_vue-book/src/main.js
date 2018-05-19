@@ -20,6 +20,16 @@ Vue.use( VueLazyLoad,{
 	attempt:1
 });
 
+/*
+title随着页面不同而不同
+在进入路由之前每一次都会执行此方法 全局钩子*/
+router.beforeEach(function(to,from,next){
+	//to:到哪去  from:从哪来   next:继续下一个路由
+	// console.log(to);
+	document.title = to.meta.title;	
+	next()
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

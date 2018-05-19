@@ -61,6 +61,13 @@
 <!-- 正常的访问 不需要缓存的走这 -->
     <router-view v-if='!$route.meta.keepAlive'></router-view>   
 ``` 
+- meta:备注信息
+- 全局钩子   进入路由前，每一次都会执行此方法
+```
+``router.beforeEach(function(from,to,next){}) 
+```
+
+
 
 
 ## 下拉加载 /page
@@ -120,6 +127,13 @@
 #备注
 - npm run dev   是自己测试用的  ，不用在本地生成一个dist文件，
 - npm run buid  是打包用的
-
+- 要是想要改变打包的文件，在build-->webpack.base.conf.js   将里面的入口文件entry改成自己需要打包的文件路径即可
+  - 组件只能有一个根  所以<template></template>,里面嵌套一个div再写
 -真正的上线
     把mock文件夹放到自己的服务器(阿里云服务器等等)上就行了  ，就算正式的上线了
+
+
+
+-  src 里面是EG_vue-book   (有后台服务)
+-  src1 里面是计数器(vuex)  （没有后台服务）
+-  通过在build-->webpack.base.conf.js   将里面的入口文件entry改成自己需要打包的文件路径即可，这样便可以运行src 或者src1
