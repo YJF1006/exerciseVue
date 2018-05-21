@@ -2,7 +2,7 @@
 	<div>
 		<Header >列表页</Header>
 		<!-- 滚动的时候触发loadMore事件 -->
-		<div class="content" ref='scroll' @scroll='loadMore' @>	
+		<div class="content" ref='scroll' @scroll='loadMore' >	
 				<ul>
 					<!-- router-link是个可以跳转组件要加key属性，防止警告   router-link替代的是li  所有tag='li' -->
 					<!-- 给路由起名，去到名字叫detail的路由，携带的参数是book.bookId -->
@@ -13,7 +13,7 @@
 							<p>内容：{{book.bookInfo}}</p>
 							<b>￥：{{book.bookprice}}</b>
 							<div class='btn-list'>
-								<button @click.stop>加入购物车</button>
+								<button @click.stop = 'addCart(book)'>加入购物车</button>
 								<button @click.stop=remove(book.bookId)>删除</button>   <!-- .stop是为了防止冒泡 要不点击删除也会进入详情 -->
 							</div>
 							
@@ -28,7 +28,7 @@
 <script>
 	import Header from '../base/Header.vue';
 	import {pagination,removeBook} from '../api/index.js';  //pagination  分页器，不用获取全部图书了 ，懒加载
-
+	import {addCart,changeCount} from '../store/mutations.js';   //引入mutations (vuex里面存储方法的)
 	export default {
 		created(){
 			//获取所有图书
@@ -74,9 +74,9 @@
 						this.getBooks();   //触发获取更多（不用每次都自己点击加载更多按钮）实现懒加载
 					}
 				},13);
-					
-				
-
+			},
+			addCart(book){
+				this.$store.commit('addCart',book);
 			}
 		},
 		// 下来刷新，这是js原生的，vue中也有各种插件，vue-pull-to-refresh (github上可以看)  

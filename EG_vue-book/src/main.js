@@ -30,10 +30,13 @@ router.beforeEach(function(to,from,next){
 	next()
 });
 
+import store from './store';
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  router,  //路由注册
+  store,   //store注册
   components: { App },
   template: '<App/>'
 })

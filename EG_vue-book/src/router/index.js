@@ -23,17 +23,17 @@ export default new Router({  //默认是没有模式的，有模式的是哈希�
   	{
   		path:'/list',
   		component:()=>import('../components/List.vue'),
-      meta:{title:'列表'}
+      meta:{keepAlive:true,title:'列表'}
   	},
   	{
   		path:'/add',
   		component:()=>import('../components/Add.vue'),
-      meta:{title:'添加'}
+      meta:{keepAlive:true,title:'添加'}
   	},
   	{
   		path:'/collect',
   		component:()=>import('../components/Collect.vue'),
-      meta:{title:'收藏'}
+      meta:{keepAlive:true,title:'购物车'}
   	},
   		//   /detail/1  {Did:1}  路径参数必须有，但是可以随机
   	{
