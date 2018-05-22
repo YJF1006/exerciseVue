@@ -11,9 +11,7 @@
  	<!-- 正常的访问 不需要缓存的走这 -->
 	<router-view v-if='!$route.meta.keepAlive'></router-view>	
  </transition>
-
-
-  	
+ 	
 	<Tab></Tab>	
   </div>
 </template>

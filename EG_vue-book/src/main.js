@@ -16,7 +16,7 @@ import VueLazyLoad from 'vue-lazyload';
 Vue.use( VueLazyLoad,{
 	preload:1.3,
 	error:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1496834666,295290399&fm=200&gp=0.jpg',
-	loading:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526701448001&di=b73d1ec9fb8fabe628317510ec42916a&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fadaf2edda3cc7cd9f4f6fbc33f01213fb90e91d5.jpg',
+	loading:'http://img.lanrentuku.com/img/allimg/1212/5-121204193R0.gif',
 	attempt:1
 });
 

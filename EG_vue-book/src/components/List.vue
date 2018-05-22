@@ -57,7 +57,7 @@
 			},
 			async remove(id){
 				await removeBook(id);  //删除某一项，删除完了后台，也要删除前台数据
-				this.books.filter((item)=>item.bookId!==id);
+				console.log(this.books.filter((item)=>item.bookId!==id));
 			},
 			more(){
 				this.getBooks();  //点击加载更多  点击按钮触发获取数据函数

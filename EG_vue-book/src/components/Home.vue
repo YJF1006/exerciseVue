@@ -4,16 +4,19 @@
 		<Header :back='true'>首页</Header>
 		
 		<div class="content">
+			<!-- 若是加载中显示这一块 -->
 			<Loading v-if='loading'></Loading>
+			<!-- 若不是加载就显示这一块 -->
 			<template v-else>
 				<Swiper :swiperSlides='slidersData'></Swiper>
 				<div class="container">
 				<h3>热门图书</h3>
 					<ul>
-						<li v-for='(hot,index) in hotBookData'>
+						<router-link v-for='(hot,index) in hotBookData'  :key='index' :to='{name:"detail",params:{did:hot.bookId}}'  
+						tag='li' >
 							<img :src="hot.bookCover"><br>
 							<b>{{hot.bookName}}</b>
-						</li>
+						</router-link>
 					</ul>
 				</div>
 			</template>
